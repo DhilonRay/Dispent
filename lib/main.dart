@@ -81,13 +81,23 @@ class HomeScreen extends StatelessWidget {
               ),
               children: [
                 buildGradientContainer(
-                    context, "Map", (context) => MapScreen()),
+                    context, "Map", () async {
+                      final Uri url = Uri.parse('https://rsoe-edis.org/eventmap');
+                      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                        throw Exception('Could not launch $url');
+                      }
+                    }),
                 buildGradientContainer(
-                    context, "Sos Help", (context) => SosHelpScreen()),
+                    context, "Sos Help", () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SosHelpScreen()));
+                    }),
                 buildGradientContainer(
-                    context, "UserReview", (context) => const UserReview()),
-                buildGradientContainer(context, "About Devoloper",
-                    (context) => const AboutUsScreen()),
+                    context, "UserReview", () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => UserReview()));
+                    }),
+                buildGradientContainer(context, "About Devoloper", () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                }),
               ],
             ),
           ),
@@ -96,15 +106,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildGradientContainer(BuildContext context, String label,
-      Widget Function(BuildContext) pageBuilder) {
+  Widget buildGradientContainer(
+    BuildContext context, 
+    String label,
+    VoidCallback onTap,
+  ) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: pageBuilder),
-        );
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
