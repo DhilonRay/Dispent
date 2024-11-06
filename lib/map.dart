@@ -4,7 +4,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 class MapScreen extends StatelessWidget {
   final WebViewController controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse('https://rsoe-edis.org/eventmap'));
+    ..loadRequest(Uri.parse('https://www.google.com/maps'));
+    // ..loadRequest(Uri.parse('https://rsoe-edis.org/eventmap'));
 
   @override
   Widget build(BuildContext context) {
