@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class MapScreen extends StatelessWidget {
+  final WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse('https://rsoe-edis.org/eventmap'));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,26 +25,7 @@ class MapScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/icons/Untitled design.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Container(
-            width: 430,
-            height: 723,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/icons/earth.jpg'),
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-        ),
-      ),
+      body: WebViewWidget(controller: controller),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'soshelp.dart';
 import 'map.dart';
 import 'UserReview.dart';
@@ -50,8 +51,11 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.share, color: Colors.white),
-            onPressed: () {
-              print("Social icon pressed");
+            onPressed: () async {
+              final Uri url = Uri.parse('https://www.facebook.com/');
+              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                throw Exception('Could not launch $url');
+              }
             },
           ),
         ],
@@ -82,8 +86,8 @@ class HomeScreen extends StatelessWidget {
                     context, "Sos Help", (context) => SosHelpScreen()),
                 buildGradientContainer(
                     context, "UserReview", (context) => const UserReview()),
-                buildGradientContainer(
-                    context, "About Devoloper", (context) => const AboutUsScreen()),
+                buildGradientContainer(context, "About Devoloper",
+                    (context) => const AboutUsScreen()),
               ],
             ),
           ),
