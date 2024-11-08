@@ -104,15 +104,9 @@ class _UserReviewState extends State<UserReview> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () async {
-            final result =
-                await Navigator.pushNamed(context, '/create-user-review');
-            if (result is Map<String, String>) {
-              userReviews.add({
-                'Name': result['name'],
-                'Email': result['email'],
-                'FeedBack': result['feedback'],
-              });
-              setState(() {});
+            final result = await Navigator.pushNamed(context, '/create-user-review');
+            if (result == true) {
+              await getuserreviews();
             }
           }),
     );
