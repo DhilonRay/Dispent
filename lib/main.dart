@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nwproject/create_user_review_screen.dart';
 import 'soshelp.dart';
 import 'map.dart';
 import 'UserReview.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/police': (context) => const SosHelpPolice(),
         '/ambulance': (context) => const SosHelpAmbulance(),
         '/fire': (context) => const SosHelpFire(),
+        '/create-user-review': (context) => const CreateUserReviewScreen(),
       },
     );
   }
@@ -47,14 +49,6 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share, color: Colors.white),
-            onPressed: () {
-              print('Facebook will be opened');
-            },
-          ),
-        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -76,20 +70,23 @@ class HomeScreen extends StatelessWidget {
                 childAspectRatio: 1,
               ),
               children: [
-                buildGradientContainer(
-                    context, "Map", () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
-                    }),
-                buildGradientContainer(
-                    context, "Sos Help", () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SosHelpScreen()));
-                    }),
-                buildGradientContainer(
-                    context, "UserReview", () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => UserReview()));
-                    }),
+                buildGradientContainer(context, "Map", () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MapScreen()));
+                }),
+                buildGradientContainer(context, "Sos Help", () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SosHelpScreen()));
+                }),
+                buildGradientContainer(context, "UserReview", () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserReview()));
+                }),
                 buildGradientContainer(context, "About Devoloper", () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AboutUsScreen()));
                 }),
               ],
             ),
@@ -100,7 +97,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget buildGradientContainer(
-    BuildContext context, 
+    BuildContext context,
     String label,
     VoidCallback onTap,
   ) {

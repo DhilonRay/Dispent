@@ -12,7 +12,7 @@ class UserReview extends StatefulWidget {
 
 class _UserReviewState extends State<UserReview> {
   final db = FirebaseFirestore.instance;
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> userReviews = [];
+  List<Map<String, dynamic>> userReviews = [];
   Future<void> getuserreviews() async {
     try {
       /*  await db.collection("User FeedBack").get().then((event) {
@@ -22,7 +22,11 @@ class _UserReviewState extends State<UserReview> {
         }
       }); */
       final event = await db.collection("User FeedBack").get();
-      userReviews = event.docs;
+      userReviews = event.docs
+          .map(
+            (e) => e.data(),
+          )
+          .toList();
       setState(() {});
     } catch (e) {
       log(e.toString());
@@ -63,42 +67,54 @@ class _UserReviewState extends State<UserReview> {
           ),
           child: ListView.separated(
               itemBuilder: (context, index) {
-                final data = userReviews[index].data();
+                final data = userReviews[index];
                 return ListTile(
-  title: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        data['Name'] ,
-        style: const TextStyle(
-          fontWeight: FontWeight.normal,
-          fontSize: 16,
-        ),
-      ),
-      Text(
-        data['Email'],
-        style: const TextStyle(
-          fontSize: 14,
-          fontStyle: FontStyle.normal
-        ),
-      ),
-      const SizedBox(height: 8),
-      Text(
-        data['FeedBack'],
-        style: const TextStyle(
-          fontSize: 15,
-        ),
-      ),
-    ],
-  ),
-  tileColor: Colors.amber,
-  textColor: Colors.white,
-);
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data['Name'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        data['Email'],
+                        style: const TextStyle(
+                            fontSize: 14, fontStyle: FontStyle.normal),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        data['FeedBack'],
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  tileColor: Colors.amber,
+                  textColor: Colors.white,
+                );
               },
               separatorBuilder: (context, index) => const SizedBox(
                     height: 10,
                   ),
               itemCount: userReviews.length)),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () async {
+            final result =
+                await Navigator.pushNamed(context, '/create-user-review');
+            if (result is Map<String, String>) {
+              userReviews.add({
+                'Name': result['name'],
+                'Email': result['email'],
+                'FeedBack': result['feedback'],
+              });
+              setState(() {});
+            }
+          }),
     );
   }
 }
