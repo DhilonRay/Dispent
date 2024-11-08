@@ -31,7 +31,6 @@ class _UserReviewState extends State<UserReview> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getuserreviews();
   }

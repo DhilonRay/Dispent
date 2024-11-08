@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'soshelp.dart';
 import 'map.dart';
 import 'UserReview.dart';
@@ -51,11 +50,8 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.share, color: Colors.white),
-            onPressed: () async {
-              final Uri url = Uri.parse('https://www.facebook.com/');
-              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                throw Exception('Could not launch $url');
-              }
+            onPressed: () {
+              print('Facebook will be opened');
             },
           ),
         ],
@@ -81,11 +77,8 @@ class HomeScreen extends StatelessWidget {
               ),
               children: [
                 buildGradientContainer(
-                    context, "Map", () async {
-                      final Uri url = Uri.parse('https://rsoe-edis.org/eventmap');
-                      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-                        throw Exception('Could not launch $url');
-                      }
+                    context, "Map", () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
                     }),
                 buildGradientContainer(
                     context, "Sos Help", () {

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class MapScreen extends StatelessWidget {
-  final WebViewController controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..loadRequest(Uri.parse('https://www.google.com/maps'));
-    // ..loadRequest(Uri.parse('https://rsoe-edis.org/eventmap'));
+  const MapScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +10,28 @@ class MapScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Map',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.amber,
             fontWeight: FontWeight.bold,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.amber),
+          icon: const Icon(Icons.arrow_back, color: Colors.amber),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: WebViewWidget(controller: controller),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/icons/earth.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
     );
   }
 }
